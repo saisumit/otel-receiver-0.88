@@ -5,6 +5,7 @@ package logs // import "go.opentelemetry.io/collector/receiver/otlpreceiver/inte
 
 import (
 	"context"
+	"fmt"
 
 	"go.opentelemetry.io/collector/consumer"
 	"go.opentelemetry.io/collector/pdata/plog/plogotlp"
@@ -32,6 +33,7 @@ func New(nextConsumer consumer.Logs, obsreport *receiverhelper.ObsReport) *Recei
 func (r *Receiver) Export(ctx context.Context, req plogotlp.ExportRequest) (plogotlp.ExportResponse, error) {
 	ld := req.Logs()
 	numSpans := ld.LogRecordCount()
+	fmt.Printf("Received %d log records\n", numSpans)
 	if numSpans == 0 {
 		return plogotlp.NewExportResponse(), nil
 	}
